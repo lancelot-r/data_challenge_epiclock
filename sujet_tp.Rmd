@@ -105,9 +105,9 @@ head(sis_res)
 ```{r volcano1, echo=TRUE, results="verbatim"}
 layout(matrix(1:2, 1), respect=TRUE)
 plot(sis_res$beta, -log10(sis_res$pval), main="Volcano plot")
-idx = -log10(sis_res$pval) > 30
-text(sis_res[idx,]$beta, -log10(sis_res[idx,]$pval), rownames(sis_res)[idx], col=2)
-plot(sis_res$r2, -log10(sis_res$pval))                  
+# idx = -log10(sis_res$pval) > 30
+# text(sis_res[idx,]$beta, -log10(sis_res[idx,]$pval), rownames(sis_res)[idx], col=2)
+# plot(sis_res$r2, -log10(sis_res$pval))                  
 ```
 
 4. Commentez le code et le graphique suivant : 
@@ -154,6 +154,7 @@ model_sis_i = function(data_train, i, screening_func=siscreening) {
 
 ```{r sis_n, echo=TRUE, results="hide"}
 r2_sis = c()
+msiscreening = memoise::memoise(siscreening)
 for (i in 0:300) {
  m = model_sis_i(data_train, i, screening_func=msiscreening) 
  r2_sis = c(r2_sis, summary(m)$r.squared)
